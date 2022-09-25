@@ -11,10 +11,14 @@ chrome.runtime.onStartup.addListener(() => {
   console.log("alive");
   chrome.alarms.onAlarm.addListener(checkDeck);
   chrome.alarms.get(alarmName, (alarm) => {
-    console.log(alarm);
+    var t = new Date(alarm.scheduledTime);
+    console.log("Next trigger time: " + t);
+    // console.log(alarm);
     if (!alarm) {
       chrome.storage.sync.get("nexttime", ({ nexttime }) => {
         chrome.alarms.create(alarmName, { when: nexttime });
+        var t = new Date(nexttime);
+        console.log("Next trigger time: " + t);
       });
     }
   });
@@ -25,4 +29,6 @@ function checkDeck() {
   var nexttime = Date.now() + period;
   chrome.alarms.create(alarmName, { when: nexttime });
   chrome.storage.sync.set({ nexttime });
+  var t = new Date(nexttime);
+  console.log("Next trigger time: " + t);
 }
