@@ -16,6 +16,6 @@ function checkDeck() {
 function report() {
   chrome.alarms.get(alarmName, (alarm) => {
     var t = new Date(alarm.scheduledTime);
-    console.log("Next trigger time: " + t);
+    chrome.action.setTitle({title:"Next trigger time: " + t});
   });
 }
